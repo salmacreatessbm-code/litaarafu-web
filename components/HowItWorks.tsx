@@ -64,7 +64,7 @@ export function HowItWorks() {
           </ul>
         </div>
 
-        <ol className="mt-14 grid gap-8 md:grid-cols-3">
+        <ol className="mt-12 grid gap-8 md:grid-cols-3">
           {howItWorks.steps.map((step, index) => (
             <li key={step.title} className="border-t border-gold pt-5">
               <p className="font-semibold text-lapis" style={{ fontVariantNumeric: "tabular-nums" }}>
@@ -75,11 +75,6 @@ export function HowItWorks() {
             </li>
           ))}
         </ol>
-
-        <div className="mt-12 rounded-lg bg-lapis p-6 text-papyrus md:p-8">
-          <h3 className="h-card !text-papyrus">{howItWorks.clickMoment.title}</h3>
-          <p className="mt-2 max-w-[52rem]">{howItWorks.clickMoment.body}</p>
-        </div>
       </div>
     </section>
   );

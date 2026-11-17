@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { learnerGoals, services } from "@/data/siteContent";
+import { contactTracks, learnerGoals, services } from "@/data/siteContent";
 
 const goalValues = learnerGoals.map((goal) => goal.value) as [string, ...string[]];
 const serviceSlugs = services.map((service) => service.slug) as [
@@ -44,7 +44,22 @@ export const bookingSchema = z.object({
   notes: optionalText(2000),
 });
 
+export const contactSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Please enter your name.")
+    .max(120, "Please keep your name under 120 characters."),
+  contact: z
+    .string()
+    .trim()
+    .min(5, "Please enter an email address or WhatsApp number.")
+    .max(254, "Please keep this under 254 characters."),
+  track: z.enum(contactTracks, "Please choose a track."),
+});
+
 export type SubscribeInput = z.infer<typeof subscribeSchema>;
+export type ContactInput = z.infer<typeof contactSchema>;
 export type BookingInput = z.infer<typeof bookingSchema>;
 
 /** First human-readable message from a failed zod parse. */

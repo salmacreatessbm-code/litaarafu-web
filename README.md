@@ -74,7 +74,6 @@ Open <http://localhost:3000>. It starts in preview mode until you fill in `.env.
 | `NEXT_PUBLIC_CAL_ASSESSMENT_URL` | Optional | Direct calendar link (Cal.com, Calendly…) for the assessment |
 | `NEXT_PUBLIC_CAL_ONE_ON_ONE_URL` | Optional | Calendar link for 1:1 classes |
 | `NEXT_PUBLIC_CAL_GROUP_URL` | Optional | Calendar link for group classes |
-| `NEXT_PUBLIC_CAL_HOMEWORK_URL` | Optional | Calendar link for homework checks |
 | `RESEND_API_KEY` | Optional | [resend.com](https://resend.com) → API Keys |
 | `RESEND_FROM_EMAIL` | Optional | A sender address on a domain you verified in Resend |
 
@@ -171,7 +170,11 @@ You can also open any table in Supabase's **Table Editor** and edit it like a sp
 | Remove a discount | Set that service's `regularPriceEur` to `null` |
 | Add a weekly root, flashcard, or lesson preview | Add an object in `data/rootsAndLessons.ts` |
 | Add an FAQ | Add to `faqs` in `data/siteContent.ts` |
-| Show a contact email in the footer | Fill in `brand.contactEmail` in `data/siteContent.ts` |
+| Show a contact email in the contact section and footer | Fill in `brand.contactEmail` in `data/siteContent.ts` |
+| Set the WhatsApp number | Replace `[YOUR_WHATSAPP_NUMBER]` in `brand.whatsappNumber` in `data/siteContent.ts` (digits only, with country code) |
+| Add photos to the "Who it's for" cards | Put the photo in `public/images/` and set that card's `image` in `audiences` in `data/siteContent.ts` |
+| Add the Tallinn University logo | Replace `public/images/tlu-logo.svg` |
+| Receive contact-form messages | Set `RESEND_API_KEY` and `ADMIN_EMAIL` (messages are emailed, not stored) |
 | Change colours | Edit `tailwind.config.ts` |
 | Update a student | Log in at `/admin` |
 

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" role="img" aria-label="Tallinn University logo placeholder">
+  <!-- Placeholder only. Replace this file with the official Tallinn University logo. -->
+  <rect x="0.5" y="0.5" width="119" height="39" rx="4" fill="#ffffff" stroke="#a8a29e" stroke-dasharray="4 3"/>
+  <text x="60" y="25" text-anchor="middle" font-family="Georgia, serif" font-size="13" font-weight="600" fill="#57534e">TLU logo</text>
+</svg>

@@ -13,11 +13,19 @@ import {
 } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { bookingModal, pricingSection, services } from "@/data/siteContent";
+import {
+  bookingModal,
+  bookingTrackOptions,
+  priceLabel,
+  pricingSection,
+  services,
+} from "@/data/siteContent";
 import { siteConfig } from "@/lib/siteConfig";
 import type { Viewer } from "@/lib/types";
 
-type BookingContextValue = { openBooking: (serviceSlug?: string) => void };
+type BookingContextValue = {
+  openBooking: (serviceSlug?: string, track?: string) => void;
+};
 
 const BookingContext = createContext<BookingContextValue | null>(null);
 
@@ -50,6 +58,7 @@ export function BookingProvider({
   const router = useRouter();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [serviceSlug, setServiceSlug] = useState<string>(services[0].slug);
+  const [track, setTrack] = useState("");
   const [status, setStatus] = useState<Status>({ kind: "idle" });
   const [timezone, setTimezone] = useState("");
 
@@ -61,9 +70,12 @@ export function BookingProvider({
     }
   }, []);
 
-  const openBooking = useCallback((slug?: string) => {
+  const openBooking = useCallback((slug?: string, preferredTrack?: string) => {
     if (slug && services.some((item) => item.slug === slug)) {
       setServiceSlug(slug);
+    }
+    if (preferredTrack && bookingTrackOptions.includes(preferredTrack)) {
+      setTrack(preferredTrack);
     }
     setStatus({ kind: "idle" });
     dialogRef.current?.showModal();
@@ -79,6 +91,17 @@ export function BookingProvider({
     const form = new FormData(event.currentTarget);
     setStatus({ kind: "sending" });
 
+    // Track and discount code travel inside the notes, so the booking
+    // API and database stay unchanged.
+    const discountCode = String(form.get("discountCode") ?? "").trim();
+    const notes = [
+      track ? `Track: ${track}` : "",
+      discountCode ? `Discount code: ${discountCode}` : "",
+      String(form.get("notes") ?? "").trim(),
+    ]
+      .filter(Boolean)
+      .join("\n");
+
     try {
       const response = await fetch("/api/book", {
         method: "POST",
@@ -89,7 +112,7 @@ export function BookingProvider({
           serviceSlug,
           preferredSchedule: form.get("preferredSchedule"),
           timezone: form.get("timezone"),
-          notes: form.get("notes"),
+          notes,
           website: form.get("website"),
         }),
       });
@@ -182,7 +205,7 @@ export function BookingProvider({
             <>
               <p className="mt-3 flex flex-wrap items-baseline gap-x-2 gap-y-1">
                 <span className="text-xl font-semibold text-lapis">
-                  €{service.priceEur}
+                  {priceLabel(service.priceEur)}
                   {service.unit ? ` ${service.unit}` : ""}
                 </span>
                 {service.regularPriceEur !== null && (
@@ -221,10 +244,49 @@ export function BookingProvider({
                   >
                     {services.map((item) => (
                       <option key={item.slug} value={item.slug}>
-                        {item.shortTitle} (€{item.priceEur})
+                        {item.shortTitle} ({priceLabel(item.priceEur)})
                       </option>
                     ))}
                   </select>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="booking-track" className="field-label">
+                      {bookingModal.trackLabel}
+                    </label>
+                    <select
+                      id="booking-track"
+                      className="field"
+                      required
+                      value={track}
+                      onChange={(event) => setTrack(event.target.value)}
+                    >
+                      <option value="" disabled>
+                        Choose a track
+                      </option>
+                      {bookingTrackOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="booking-discount" className="field-label">
+                      {bookingModal.discountLabel}{" "}
+                      <span className="font-normal">(optional)</span>
+                    </label>
+                    <input
+                      id="booking-discount"
+                      name="discountCode"
+                      type="text"
+                      maxLength={40}
+                      autoComplete="off"
+                      placeholder={bookingModal.discountPlaceholder}
+                      className="field"
+                    />
+                  </div>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
@@ -298,7 +360,7 @@ export function BookingProvider({
                   <textarea
                     id="booking-notes"
                     name="notes"
-                    maxLength={2000}
+                    maxLength={1900}
                     rows={3}
                     placeholder={bookingModal.notesPlaceholder}
                     className="field"
@@ -342,10 +404,13 @@ export function BookingProvider({
 /** Any button that opens the booking modal for a given service. */
 export function BookButton({
   serviceSlug,
+  track,
   className = "btn-primary",
   children,
 }: {
   serviceSlug?: string;
+  /** Pre-selects a track in the modal (see bookingTrackOptions). */
+  track?: string;
   className?: string;
   children: ReactNode;
 }) {
@@ -354,7 +419,7 @@ export function BookButton({
     <button
       type="button"
       className={className}
-      onClick={() => openBooking(serviceSlug)}
+      onClick={() => openBooking(serviceSlug, track)}
     >
       {children}
     </button>

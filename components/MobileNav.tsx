@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { navLinks } from "@/data/siteContent";
+import { navLinks, primaryCta } from "@/data/siteContent";
+import { useBooking } from "@/components/BookingProvider";
 
 export function MobileNav({
   portal,
@@ -10,9 +11,10 @@ export function MobileNav({
   portal: { href: string; label: string };
 }) {
   const [open, setOpen] = useState(false);
+  const { openBooking } = useBooking();
 
   return (
-    <div className="xl:hidden">
+    <div className="lg:hidden">
       <button
         type="button"
         aria-expanded={open}
@@ -41,14 +43,26 @@ export function MobileNav({
                 </Link>
               </li>
             ))}
-            <li className="mt-2 sm:hidden">
+            <li>
               <Link
                 href={portal.href}
                 onClick={() => setOpen(false)}
-                className="btn-primary w-full"
+                className="block rounded-md px-2 py-2.5 font-semibold text-lapis hover:bg-papyrus-deep"
               >
                 {portal.label}
               </Link>
+            </li>
+            <li className="mt-2 sm:hidden">
+              <button
+                type="button"
+                className="btn-cta w-full"
+                onClick={() => {
+                  setOpen(false);
+                  openBooking("assessment");
+                }}
+              >
+                {primaryCta}
+              </button>
             </li>
           </ul>
         </nav>
