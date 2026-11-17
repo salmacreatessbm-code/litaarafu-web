@@ -110,6 +110,15 @@
     font-size: 1.125rem;
   }
 
+  /* High-contrast primary call to action (book the free assessment). */
+  .btn-cta {
+    @apply btn bg-carnelian-deep text-white hover:bg-[#8A2C19];
+  }
+
+  .btn-whatsapp {
+    @apply btn bg-malachite text-white hover:bg-[#24503A];
+  }
+
   .btn-outline {
     @apply btn border border-lapis bg-transparent text-lapis hover:bg-lapis hover:text-papyrus;
   }

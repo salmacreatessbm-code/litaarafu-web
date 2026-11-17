@@ -21,30 +21,51 @@ export const brand = {
   verseReference: "Qur'an 49:13",
   description:
     "Living Arabic classes, courses and books that teach Fusha, everyday Egyptian Arabic and the Qur'an's most common words together, one root at a time.",
-  /** Shown in the footer when filled in, e.g. "hello@yourdomain.com". */
+  /** Shown in the contact section and footer when filled in, e.g. "hello@yourdomain.com". */
   contactEmail: "",
+  /**
+   * WhatsApp number in international format, digits only (no "+", spaces
+   * or dashes), e.g. "3725551234". Replace the placeholder before launch.
+   */
+  whatsappNumber: "[YOUR_WHATSAPP_NUMBER]",
 };
 
+/** wa.me link, optionally with a pre-filled message. */
+export function whatsappUrl(message?: string) {
+  const base = `https://wa.me/${brand.whatsappNumber}`;
+  return message ? `${base}?text=${encodeURIComponent(message)}` : base;
+}
+
 export const navLinks = [
+  { label: "Tracks", href: "/#tracks" },
   { label: "How It Works", href: "/#how-it-works" },
-  { label: "Sample Lesson & Flashcards", href: "/#sample-lesson" },
   { label: "Who It's For", href: "/#who-its-for" },
-  { label: "Classes & Pricing", href: "/#classes" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "Contact", href: "/#contact" },
 ];
+
+/** Label of the main call to action in the header. */
+export const primaryCta = "Book Free Assessment";
 
 /* ------------------------------------------------------------------ */
 /* Hero + newsletter                                                   */
 /* ------------------------------------------------------------------ */
 
 export const hero = {
-  overline: "Living Arabic · Fusha · Egyptian · Qur'an",
-  headline: "One root. Three worlds. Arabic made for real life.",
+  overline: "Living Arabic · Egyptian · Fusha · Qur'an",
+  headline:
+    "Making Arabic learning materials in every language possible on Earth.",
   subheadline:
-    "Most classes wall off Fusha from how people actually talk, leaving you stuck in the middle. We teach Fusha, everyday Egyptian Arabic, and the Qur'an's most common words together, one root at a time. Classes, courses, and books built for different learning styles and every language.",
+    "Currently in English, with more languages coming soon. Many people come to Egypt to learn Fusha, only to find out nobody speaks it in real life—outside of official news and movie subtitles, everyone speaks dialect. Whether you want Fusha for university, Islamic studies, or personal interest, or you want to speak real Egyptian, we're happy to help.",
+  primaryButton: "Book a Free 30-Min Level Assessment",
+  primaryNote: "Free until the end of the year · Reg. €10",
+  secondaryButton: "Message on WhatsApp",
+  whatsappMessage:
+    "Salam! I'm interested in Arabic classes and have a quick question.",
   trustStrip: [
     "Weekly roots & flashcards",
-    "Real lesson & homework previews",
     "Full tashkeel & Franco-Arab",
+    "Small groups, max 5 students",
     "Student progress portal",
   ],
 };
@@ -85,151 +106,164 @@ export const newsletter = {
 };
 
 /* ------------------------------------------------------------------ */
+/* Choose your track                                                   */
+/* ------------------------------------------------------------------ */
+
+export const tracksSection = {
+  overline: "Choose your track",
+  header: "Three tracks. Pick the Arabic you actually need.",
+  cta: "Start with a free assessment →",
+};
+
+/**
+ * The three bookable tracks. `value` is passed to the booking modal so
+ * the right track is pre-selected.
+ */
+export const tracks: {
+  value: string;
+  world: World;
+  title: string;
+  body: string;
+}[] = [
+  {
+    value: "Egyptian Dialect",
+    world: "egyptian",
+    title: "Egyptian Dialect",
+    body: "Speak the Arabic people actually use at home, in cafés, and with friends. We use both Arabic script and Franco-Arab so you can start talking from day one without waiting months to master reading.",
+  },
+  {
+    value: "Fusha Arabic",
+    world: "fusha",
+    title: "Fusha Arabic",
+    body: "Learn Modern Standard Arabic for reading, writing, media, or formal speaking—whether you need it for university, research, or personal interest. Seeing how Fusha shares roots with Egyptian dialect makes both much easier to grasp.",
+  },
+  {
+    value: "Qur'anic Arabic",
+    world: "quranic",
+    title: "Qur'anic Arabic",
+    body: "Understand what you're reciting without getting buried in heavy grammar books. Because the Qur'an is written in classical Fusha—and is the most important piece of literature in the Arabic language—studying Fusha naturally connects you to its roots and expressions too.",
+  },
+];
+
+/** Track choices offered inside the booking modal. */
+export const bookingTrackOptions = [
+  ...tracks.map((track) => track.value),
+  "Combined tracks",
+  "Not sure yet",
+];
+
+/* ------------------------------------------------------------------ */
 /* How it works                                                        */
 /* ------------------------------------------------------------------ */
 
 export const howItWorks = {
   overline: "How it works",
-  header: "Arabic is one language. We teach it that way.",
+  header: "One root. Three worlds.",
   intro:
-    "You learn one kind of Arabic in a classroom, hear a completely different one around the dinner table, and meet a third when you open the Qur'an. Most schools treat those as three separate subjects. We treat them as one family growing from the same roots.",
+    "Classroom Arabic, dinner-table Arabic, and the Arabic of the Qur'an all grow from the same three-letter roots. Learn a root once and you start recognising it everywhere.",
   worlds: [
     {
       world: "fusha" as World,
       label: "Fusha",
       title: "The source code",
-      body: "The Arabic of books, headlines, poetry and song lyrics. It travels everywhere in the region, and everyday speech is built on top of it.",
+      body: "The Arabic of books, news, and formal speech across the region.",
     },
     {
       world: "egyptian" as World,
       label: "Egyptian Arabic",
       title: "The remix",
-      body: "Spoken, living Arabic. Decades of cinema and music have made Egyptian the most widely understood way of speaking across the Arab world.",
+      body: "Everyday spoken Arabic, widely understood thanks to Egyptian film and music.",
     },
     {
       world: "quranic" as World,
       label: "Qur'anic meaning",
       title: "The deep root",
-      body: "High-frequency Qur'anic words explained in plain English, with no heavy jargon and no watered-down meanings.",
+      body: "High-frequency Qur'anic words, explained in plain English.",
     },
   ],
   steps: [
     {
       title: "Start with one root",
-      body: "Every lesson opens with three letters. Learn them once and you hold the key to a whole family of words.",
+      body: "Three letters unlock a whole family of words.",
     },
     {
       title: "Follow it through three worlds",
-      body: "See the same root on the page, hear it on a Cairo street, and recognise it in a verse you may already know by heart.",
+      body: "See it on the page, hear it on a Cairo street, recognise it in a verse.",
     },
     {
       title: "Use it with real people",
-      body: "Grammar serves relationships, not the other way around. Every lesson ends with something you can say to someone that day.",
+      body: "Every lesson ends with something you can say that same day.",
     },
   ],
-  clickMoment: {
-    title: "We build toward the “click”",
-    body: "Around 6 to 12 months in, learners hit a moment where they hear a casual street phrase, recognise its Fusha root straight away, and connect it to a Qur'anic verse. No promises of fluency in 30 days: our honest promise is real, noticeable connection within about a year of steady learning.",
-  },
 };
 
 /* ------------------------------------------------------------------ */
-/* Section headers for the sample area                                 */
+/* Interactive root preview                                            */
 /* ------------------------------------------------------------------ */
 
 export const sampleSection = {
-  overline: "Sample lesson & flashcards",
-  header:
-    "See how one root lives three lives, and preview what's inside every lesson.",
-  subheader:
-    "Almost every Arabic word grows out of a three-letter root. Learn that root once, and you start hearing it in books, on Cairo streets, and in the Qur'an. Explore a root below, flip a sample flashcard, or peek at real lesson and homework material.",
+  overline: "Try it yourself",
+  header: "Pick a root and watch it live three lives.",
+  subheader: "Explore a root below, then flip a sample flashcard.",
   flashcardsTitle: "Flip a sample flashcard",
   flashcardsHint: "Three cards from the weekly pack. Tap a card to turn it over.",
-  peekTitle: "Peek inside a lesson & homework",
-  showcaseCta:
-    "Want fresh roots, flashcards, and lesson & homework examples every week?",
-  showcaseButton: "Subscribe free →",
+  newsletterTitle: "Want a fresh root every week?",
+  newsletterBody:
+    "Join the free weekly newsletter for new roots and ready-to-use flashcards.",
 };
 
 /* ------------------------------------------------------------------ */
-/* Audience pathways                                                   */
+/* Who it's for (audience cards, not bookable)                         */
 /* ------------------------------------------------------------------ */
 
-export const pathwaysSection = {
+export const audiencesSection = {
   overline: "Who it's for",
-  header: "Everyone comes to Arabic for someone. Find your path.",
+  header: "Everyone comes to Arabic for someone. Sound familiar?",
 };
 
-export const pathways: {
+/**
+ * Audience cards.
+ *
+ * - `image`  path to a real photo inside /public (16:10 works best).
+ *            Leave empty to show the neutral placeholder.
+ * - `logo`   optional badge shown on the top-left of the image area.
+ */
+export const audiences: {
   slug: string;
-  audience: string;
-  world: World;
-  headline: string;
-  painPoint: string;
-  howWeHelp: string;
-  cta: string;
-  /** Which service the button opens in the booking modal. */
-  serviceSlug: string;
+  title: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  logo?: { src: string; alt: string };
 }[] = [
   {
-    slug: "heritage",
-    audience: "Heritage Adults",
-    world: "egyptian",
-    headline: "Your Arabic isn't gone. It's waiting.",
-    painPoint:
-      "You catch more than you can say. You smile along at family dinners, freeze the second someone asks you a question, and feel like a guest inside your own family's language.",
-    howWeHelp:
-      "We start from the sounds you already grew up hearing, real Egyptian and family dialect, and gently connect them to Fusha and the script, so you can talk with your relatives and feel at home in your voice.",
-    cta: "Reconnect with your roots →",
-    serviceSlug: "assessment",
-  },
-  {
     slug: "partners",
-    audience: "Partners & Egypt-Bound Learners",
-    world: "fusha",
-    headline: "Be in on the joke at the family table.",
-    painPoint:
-      "Your partner translates everything for you, or your in-laws switch to English to be polite. Or you're heading to Cairo for work and life, and stiff phrasebooks fall flat five minutes off the plane.",
-    howWeHelp:
-      "Real spoken Egyptian for real situations (family dinners, taxis, the office, the neighbourhood 2ahwa), paired with the cultural context behind what people say and enough Fusha to read menus, signs, and messages.",
-    cta: "Start speaking Egyptian →",
-    serviceSlug: "one-on-one",
+    title: "Partners & Egypt-Bound Learners",
+    body: "Tired of your partner translating every joke at family dinner—or heading to Cairo and realizing textbook Arabic doesn't work in a taxi? Learn real, everyday Egyptian so you can actually join the conversation.",
+    image: "",
+    imageAlt: "",
   },
   {
-    slug: "students",
-    audience: "University & Academic Students (18–70)",
-    world: "fusha",
-    headline: "Make your Fusha work in the real world.",
-    painPoint:
-      "You can break down an editorial article on paper, yet you can't follow a two-minute conversation on the street. Your research, study abroad, or degree needs both, and most departments only teach one.",
-    howWeHelp:
-      "Sharp, structured Fusha tutoring tailored to your coursework and exams, taught side by side with spoken Egyptian so your academic Arabic connects to living culture.",
-    cta: "Get academic support →",
-    serviceSlug: "homework-check",
+    slug: "heritage",
+    title: "Heritage Adults & Diaspora Families",
+    body: "You understand Arabic when relatives speak, but freeze when it's your turn to reply—or you want your kids to stay connected to their roots without boring weekend drills. We build lessons around real family conversations.",
+    image: "",
+    imageAlt: "",
   },
   {
-    slug: "youth",
-    audience: "Diaspora Youth (Ages 8–18) · For Parents",
-    world: "quranic",
-    headline: "Arabic they'll actually want to speak.",
-    painPoint:
-      "Weekend classes feel like extra homework, their vocabulary shrinks every year, and you don't want them losing touch with who they are.",
-    howWeHelp:
-      "Lively, age-appropriate lessons built around stories, games, music, and real conversations they can have with their cousins, teaching them to read, write, and speak with confidence.",
-    cta: "Find a class for my child →",
-    serviceSlug: "small-group",
+    slug: "tallinn-university",
+    title: "Tallinn University Students (Middle Eastern & Arabic Studies)",
+    body: "Studying Middle Eastern & Arabic Studies in Tallinn where good study materials are hard to find? Get structured practice, exam prep, and custom-built study guides and flashcards tailored to your coursework—plus 10% off all classes with code TLU10.",
+    image: "",
+    imageAlt: "",
+    logo: { src: "/images/tlu-logo.svg", alt: "Tallinn University" },
   },
   {
     slug: "quran",
-    audience: "Qur'anic Vocabulary Learners",
-    world: "quranic",
-    headline: "Understand what you're reciting.",
-    painPoint:
-      "You can read the Arabic script smoothly, yet the meaning drifts past you. Heavy tafseer volumes feel overwhelming, and side-by-side translations never show you how the Arabic words themselves work.",
-    howWeHelp:
-      "Short, plain-English mini-courses built around the Qur'an's highest-frequency roots. Because a small core of roots makes up most of the text, every lesson unlocks verses you already know by heart.",
-    cta: "Start understanding the Qur'an →",
-    serviceSlug: "one-on-one",
+    title: "Qur'anic Readers & Curious Minds",
+    body: "You can read the Arabic letters smoothly, but the meaning still drifts past you. Instead of memorizing long vocabulary lists, learn the high-frequency roots that unlock verses you already know by heart.",
+    image: "",
+    imageAlt: "",
   },
 ];
 
@@ -239,17 +273,19 @@ export const pathways: {
 
 export const pricingSection = {
   overline: "Classes & pricing",
-  header: "Start learning your way. Book a session or join a small group.",
+  header: "Simple pricing. Start with a free assessment.",
   subheader:
-    "Honest, transparent pricing, with special year-end rates available through the end of the year. Create a free student account anytime to track your booked classes, progress, and covered topics.",
+    "Choose a monthly package for the best per-class rate, or pay by the class. Every option is available for Egyptian Dialect, Fusha, or Qur'anic Arabic.",
   /** Shown next to every discounted price. */
   promoLabel: "Until the end of the year",
+  monthlyLabel: "Monthly Packages",
+  byClassLabel: "By-Class",
 };
 
 /**
- * Bookable services.
+ * Bookable services: everything the booking modal and /api/book accept.
  *
- * - `priceEur`        the price charged right now
+ * - `priceEur`        the price charged right now (0 shows as "Free")
  * - `regularPriceEur` the normal price, shown struck through.
  *                     Set to `null` when there is no promotion.
  * - `calendarKey`     which calendar link from lib/siteConfig.ts to offer
@@ -261,62 +297,208 @@ export const services = [
     slug: "assessment",
     title: "30-Minute Level Assessment",
     shortTitle: "Level assessment",
-    priceEur: 5,
+    priceEur: 0,
     regularPriceEur: 10 as number | null,
     unit: "",
-    badge: "Best first step",
-    copy: "Not sure where to begin? Sit down for a relaxed 30-minute 1:1 chat so we can gauge your current level across Fusha, spoken Egyptian, or Qur'anic reading, talk through your goals, and map out the clearest next step for your learning style.",
-    cta: "Book 30-min assessment (€5) →",
     calendarKey: "assessment",
   },
   {
-    slug: "one-on-one",
-    title: "1:1 Tailored Private Classes",
-    shortTitle: "1:1 private class",
-    priceEur: 30,
-    regularPriceEur: 40 as number | null,
-    unit: "/ class",
-    badge: "Year-end offer",
-    copy: "Private lessons built 100% around your goals, pace, and learning style, whether you want spoken Egyptian for family and travel, structured Fusha, Qur'anic roots, or all three woven together. Flexible scheduling across time zones for ages 8 to 70.",
-    cta: "Book a 1:1 class (€30) →",
+    slug: "one-on-one-4",
+    title: "1:1 Private Classes · 4 classes a month",
+    shortTitle: "1:1 private · 4 classes / month",
+    priceEur: 105,
+    regularPriceEur: null as number | null,
+    unit: "/ month",
     calendarKey: "oneOnOne",
   },
   {
-    slug: "small-group",
-    title: "Small-Group Classes (Max 5 Students)",
-    shortTitle: "Small-group class",
-    priceEur: 10,
-    regularPriceEur: 15 as number | null,
-    unit: "/ person",
-    badge: "Max 5 students",
-    copy: "Learn together and start speaking sooner in tight-knit groups capped at just 5 students. Cohorts are matched by goal and level (heritage learners, partners, students, or youth) so everyone gets plenty of airtime, real conversation, and shared momentum.",
-    cta: "Reserve a group spot (€10) →",
+    slug: "one-on-one-8",
+    title: "1:1 Private Classes · 8 classes a month",
+    shortTitle: "1:1 private · 8 classes / month",
+    priceEur: 200,
+    regularPriceEur: null as number | null,
+    unit: "/ month",
+    calendarKey: "oneOnOne",
+  },
+  {
+    slug: "one-on-one",
+    title: "1:1 Private Class · single class",
+    shortTitle: "1:1 private · single class",
+    priceEur: 30,
+    regularPriceEur: null as number | null,
+    unit: "/ class",
+    calendarKey: "oneOnOne",
+  },
+  {
+    slug: "small-group-monthly",
+    title: "Small-Group Cohort · 4 classes a month",
+    shortTitle: "Small group · 4 classes / month",
+    priceEur: 35,
+    regularPriceEur: null as number | null,
+    unit: "/ month",
     calendarKey: "group",
   },
   {
-    slug: "homework-check",
-    title: "University Homework Check (Arabic & Middle Eastern Studies)",
-    shortTitle: "University homework check",
-    priceEur: 15,
+    slug: "small-group",
+    title: "Small-Group Cohort · single class",
+    shortTitle: "Small group · single class",
+    priceEur: 10,
     regularPriceEur: null as number | null,
-    unit: "/ session",
-    badge: "For uni students",
-    copy: "Studying Arabic or Middle Eastern Studies at university and want a sharp second pair of eyes before you submit? Get targeted feedback on your grammar, vocalization (tashkeel), translation nuances, and Fusha style, helping you spot mistakes and understand the why behind every correction.",
-    cta: "Book a homework check (€15) →",
-    calendarKey: "homework",
+    unit: "/ class",
+    calendarKey: "group",
   },
 ] as const;
 
 export type Service = (typeof services)[number];
 export type ServiceSlug = Service["slug"];
 
-export const comingSoon = {
-  title: "Upcoming Books & Self-Paced Mini-Courses",
-  status: "In development",
-  badge: "Coming soon",
-  copy: "We are currently developing original books and bite-sized digital courses designed for different learning styles, putting Fusha, Egyptian Arabic, and Qur'anic meaning side by side on every page. Join the weekly newsletter to get first dibs and subscriber launch discounts when they drop.",
-  cta: "Join the early-access list ↑",
+/** "Free" for a zero price, otherwise "€30". */
+export function priceLabel(priceEur: number) {
+  return priceEur === 0 ? "Free" : `€${priceEur}`;
+}
+
+/** The universal first step, shown above the pricing cards in both views. */
+export const assessmentOffer = {
+  serviceSlug: "assessment" as ServiceSlug,
+  badge: "Your first step",
+  title: "30-Minute Level Assessment",
+  price: "FREE",
+  regularPrice: "€10",
+  description:
+    "Tailored to whichever track you want to explore—Egyptian Dialect, Fusha, or Qur'anic Arabic—plus a personal learning roadmap.",
+  cta: "Book Free Assessment",
 };
+
+type PlanOption = {
+  /** Which entry in `services` the button books. */
+  serviceSlug: ServiceSlug;
+  price: string;
+  unit: string;
+  detail: string;
+  cta: string;
+};
+
+/** The two pricing cards. Each has a monthly view and a by-class view. */
+export const pricingPlans: {
+  id: string;
+  title: string;
+  subtitle: string;
+  features: string[];
+  monthly: PlanOption[];
+  byClass: PlanOption[];
+}[] = [
+  {
+    id: "private",
+    title: "1:1 Private Classes",
+    subtitle: "Choose Egyptian, Fusha, or Qur'an",
+    features: [
+      "100% tailored curriculum",
+      "Weekly root sheets",
+      "Flashcards",
+      "Student portal tracking",
+    ],
+    monthly: [
+      {
+        serviceSlug: "one-on-one-4",
+        price: "€105",
+        unit: "/ month",
+        detail: "4 classes · €26.25/class",
+        cta: "Book 4 classes",
+      },
+      {
+        serviceSlug: "one-on-one-8",
+        price: "€200",
+        unit: "/ month",
+        detail: "8 classes · €25/class",
+        cta: "Book 8 classes",
+      },
+    ],
+    byClass: [
+      {
+        serviceSlug: "one-on-one",
+        price: "€30",
+        unit: "/ class",
+        detail: "60 min",
+        cta: "Book a 1:1 class",
+      },
+    ],
+  },
+  {
+    id: "group",
+    title: "Small-Group Cohort (Max 5 Students)",
+    subtitle: "Grouped by track & level",
+    features: [
+      "Goal-matched cohorts (Egyptian, Fusha, or Qur'an)",
+      "Active speaking airtime",
+    ],
+    monthly: [
+      {
+        serviceSlug: "small-group-monthly",
+        price: "€35",
+        unit: "/ month",
+        detail: "4 classes · €8.75/class",
+        cta: "Reserve a group spot",
+      },
+    ],
+    byClass: [
+      {
+        serviceSlug: "small-group",
+        price: "€10",
+        unit: "/ class",
+        detail: "60 min",
+        cta: "Reserve a group spot",
+      },
+    ],
+  },
+];
+
+/** Discount strip under the pricing cards. `code` is highlighted in the body. */
+export const discounts: { title: string; body: string; code?: string }[] = [
+  {
+    title: "Combine Two Tracks — Save 10%",
+    body: "Pair any two monthly tracks (such as Fusha + Qur'an or Egyptian + Qur'an) and get 10% off your combined monthly total.",
+  },
+  {
+    title: "Tallinn University Student Discount",
+    body: "Enrolled in Middle Eastern & Arabic Studies at Tallinn University? Use code TLU10 at booking for 10% off any package or single class.",
+    code: "TLU10",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* Contact                                                             */
+/* ------------------------------------------------------------------ */
+
+export const contact = {
+  overline: "Contact",
+  header: "Have a quick question? Just ask.",
+  intro:
+    "WhatsApp is the fastest way to reach us. Prefer writing it down? Use the form and we'll get back to you.",
+  whatsappButton: "Message on WhatsApp",
+  floatingLabel: "Chat with us on WhatsApp",
+  emailNote: "Prefer email? Write to us at",
+  emailNoteFallback:
+    "Prefer email? Leave your address in the form and we'll reply there.",
+  form: {
+    nameLabel: "Name",
+    contactLabel: "Email or WhatsApp",
+    contactPlaceholder: "you@example.com or +372…",
+    trackLabel: "Track of interest",
+    trackPlaceholder: "Choose a track",
+    submit: "Send Message",
+    successTitle: "Message sent.",
+    successBody: "Thank you! We'll get back to you shortly.",
+  },
+};
+
+/** Track choices in the contact form. Values are sent to /api/contact. */
+export const contactTracks = [
+  "Egyptian",
+  "Fusha",
+  "Qur'an",
+  "Combined",
+  "Tallinn University Student",
+] as const;
 
 export const bookingModal = {
   intro:
@@ -324,6 +506,9 @@ export const bookingModal = {
   calendarPrompt: "Prefer to pick a slot yourself?",
   calendarButton: "Open the booking calendar ↗",
   schedulePlaceholder: "e.g. Weekday evenings after 18:00, or Saturday mornings",
+  trackLabel: "Track",
+  discountLabel: "Discount code",
+  discountPlaceholder: "e.g. TLU10",
   notesPlaceholder:
     "Your level, your goals, your child's age, or anything else that helps us prepare",
   submit: "Request this session",

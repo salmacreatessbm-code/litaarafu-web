@@ -1,39 +1,57 @@
-import { brand, hero } from "@/data/siteContent";
+import { brand, hero, whatsappUrl } from "@/data/siteContent";
 import { Ar } from "@/components/Arabic";
-import { NewsletterForm } from "@/components/NewsletterForm";
+import { BookButton } from "@/components/BookingProvider";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export function Hero() {
   return (
     <section className="border-b border-gold">
-      <div className="mx-auto grid max-w-content gap-10 px-4 py-12 md:px-6 md:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-14">
+      <div className="mx-auto grid max-w-content gap-10 px-4 py-12 md:px-6 md:py-20 lg:grid-cols-[1.25fr_0.75fr] lg:items-center lg:gap-14">
         <div>
           <p className="eyebrow">{hero.overline}</p>
+          <h1 className="h-display mt-4 text-[2rem] md:text-[2.75rem]">
+            {hero.headline}
+          </h1>
+          <p className="mt-5 max-w-[40rem] text-lg">{hero.subheadline}</p>
 
-          <p className="mt-4">
-            <Ar
-              sized
-              className="inline-block text-[3rem] font-bold text-lapis md:text-[4.25rem] !leading-[1.6]"
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div>
+              <BookButton serviceSlug="assessment" className="btn-cta w-full sm:w-auto">
+                {hero.primaryButton}
+              </BookButton>
+              <p className="mt-2 text-center text-sm sm:text-left">
+                {hero.primaryNote}
+              </p>
+            </div>
+            <a
+              href={whatsappUrl(hero.whatsappMessage)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-whatsapp"
             >
-              {brand.nameArabic}
-            </Ar>
-          </p>
-          <div className="flex items-center gap-3" aria-hidden="true">
-            <span className="h-px w-24 bg-gold" />
-            <span className="h-1 w-1 rounded-full bg-carnelian" />
-            <span className="h-px w-24 bg-gold" />
+              <WhatsAppIcon />
+              {hero.secondaryButton}
+            </a>
           </div>
-          <p className="mt-3 text-lg md:text-xl">
-            <em>{brand.nameLatin}</em> ·{" "}
-            <span className="font-semibold">“{brand.tagline}”</span>{" "}
-            <span className="text-base">({brand.verseReference})</span>
-          </p>
-
-          <h1 className="h-display mt-8">{hero.headline}</h1>
-          <p className="mt-5 max-w-[38rem] text-lg md:text-xl">{hero.subheadline}</p>
         </div>
 
-        <div id="newsletter" className="card scroll-mt-28 p-6 md:p-8">
-          <NewsletterForm />
+        <div className="card hidden p-8 text-center lg:block">
+          <Ar
+            sized
+            className="inline-block text-[3.5rem] font-bold text-lapis !leading-[1.6]"
+          >
+            {brand.nameArabic}
+          </Ar>
+          <div className="mx-auto flex w-fit items-center gap-3" aria-hidden="true">
+            <span className="h-px w-20 bg-gold" />
+            <span className="h-1 w-1 rounded-full bg-carnelian" />
+            <span className="h-px w-20 bg-gold" />
+          </div>
+          <p className="mt-4 text-lg">
+            <em>{brand.nameLatin}</em>
+          </p>
+          <p className="mt-1 text-lg font-semibold">“{brand.tagline}”</p>
+          <p className="text-base">{brand.verseReference}</p>
         </div>
       </div>
 

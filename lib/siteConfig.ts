@@ -20,7 +20,6 @@ export const siteConfig = {
     assessment: clean(process.env.NEXT_PUBLIC_CAL_ASSESSMENT_URL),
     oneOnOne: clean(process.env.NEXT_PUBLIC_CAL_ONE_ON_ONE_URL),
     group: clean(process.env.NEXT_PUBLIC_CAL_GROUP_URL),
-    homework: clean(process.env.NEXT_PUBLIC_CAL_HOMEWORK_URL),
   } as Record<string, string>,
 };
 

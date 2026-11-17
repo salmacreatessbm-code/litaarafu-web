@@ -1,4 +1,4 @@
-import { brand, learnerGoals } from "@/data/siteContent";
+import { brand, learnerGoals, priceLabel } from "@/data/siteContent";
 import { getServerConfig } from "@/lib/siteConfig";
 
 /**
@@ -131,7 +131,7 @@ ${h("#1B2028", "Sample lesson & homework mini-challenge (30 seconds)")}
 ${h("#1B2028", "What's coming next")}
 <ul style="padding-left:20px;">
 <li>Next week's newsletter: Root <strong>${ar("ك - ت - ب", 20)}</strong> (${fr("K - T - B")}), 3 new flashcards, and why Egyptians call signing a marriage contract “writing the book.”</li>
-<li>Ready for live practice? Create your free student account on our site anytime to book a <strong>€5 level assessment</strong> or <strong>€30 1:1 class</strong> and track every topic you cover.</li>
+<li>Ready for live practice? Create your free student account on our site anytime to book a <strong>free level assessment</strong> or a <strong>1:1 class</strong> and track every topic you cover.</li>
 </ul>
 <p>Hit reply anytime and tell us what brought you to Arabic. We read every single message.</p>
 <p>${ar("مَعَ السَّلَامَة")} · ${fr("ma3a s-salaama")} (go with safety),<br><strong>The ${ar(brand.nameArabic, 20)} Team</strong></p>`;
@@ -163,6 +163,32 @@ export async function notifyAdminOfSubscriber(email: string, goal: string) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Contact form                                                        */
+/* ------------------------------------------------------------------ */
+
+export async function notifyAdminOfContact(inquiry: {
+  name: string;
+  contact: string;
+  track: string;
+}) {
+  const { adminEmail } = getServerConfig();
+  if (!adminEmail) return false;
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inquiry.contact);
+
+  return send({
+    to: adminEmail,
+    subject: `New inquiry: ${inquiry.name} (${inquiry.track})`,
+    html: layout(
+      `<p>A new message came in through the contact form.</p>
+<p><strong>Name:</strong> ${esc(inquiry.name)}<br>
+<strong>Email or WhatsApp:</strong> ${esc(inquiry.contact)}<br>
+<strong>Track of interest:</strong> ${esc(inquiry.track)}</p>`,
+    ),
+    replyTo: isEmail ? inquiry.contact : undefined,
+  });
+}
+
+/* ------------------------------------------------------------------ */
 /* Bookings                                                            */
 /* ------------------------------------------------------------------ */
 
@@ -190,7 +216,7 @@ export async function notifyAdminOfBooking(booking: BookingEmail) {
     html: layout(
       `<p>A new booking request just came in. Confirm it from <strong>/admin</strong>.</p>
 <table style="border-collapse:collapse;font-size:16px;">
-${row("Class", `${booking.serviceTitle} (€${booking.priceEur})`)}
+${row("Class", `${booking.serviceTitle} (${priceLabel(booking.priceEur)})`)}
 ${row("Student", booking.name)}
 ${row("Email", booking.email)}
 ${row("Usually free", booking.preferredSchedule)}
@@ -210,7 +236,7 @@ export async function sendBookingReceipt(booking: BookingEmail) {
     subject: `We got your request: ${booking.serviceTitle}`,
     html: layout(
       `<p>${ar("أَهْلًا")} · ${fr("ahlan!")}</p>
-<p>Thank you for requesting a <strong>${esc(booking.serviceTitle)}</strong> (€${booking.priceEur}). We'll email you shortly to confirm a time that fits the availability you sent us.</p>
+<p>Thank you for requesting a <strong>${esc(booking.serviceTitle)}</strong> (${priceLabel(booking.priceEur)}). We'll email you shortly to confirm a time that fits the availability you sent us.</p>
 <p>Nothing is charged until your session is confirmed.${
         booking.hasAccount
           ? " You can follow this booking in your student dashboard."
